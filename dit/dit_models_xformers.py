@@ -60,50 +60,6 @@ def slerp(z1, z2, alpha):
                 + torch.sin(alpha * theta) / torch.sin(theta) * z2
             )
             
-# def frequency_domain_interpolation(signal1, signal2, alpha):
-#     """
-#     在频域中插值信号，支持不同形状的输入
-#     Args:
-#         signal1: 张量，大小为 [batch, freq_len, channels]，输入的第一个信号
-#         signal2: 张量，大小为 [batch, freq_len, channels]，输入的第二个信号
-#         alpha: 插值权重，范围为 [0, 1]，控制插值的平衡程度
-#     Returns:
-#         插值后的信号张量，大小与输入信号相同
-#     """
-#     # 检查输入形状是否匹配
-#     assert signal1.shape == signal2.shape, "Signal shapes must match for interpolation."
-
-#     # 获取信号的形状
-#     *batch_shape, freq_len, channels = signal1.shape
-
-#     # 进行傅里叶变换
-#     freq_signal1 = torch.fft.fft(signal1, dim=-2)
-#     freq_signal2 = torch.fft.fft(signal2, dim=-2)
-
-#     # 划分低频和高频部分
-#     low_freq_threshold = freq_len // 2
-#     low_freq_part1 = freq_signal1[..., :low_freq_threshold, :]
-#     low_freq_part2 = freq_signal2[..., :low_freq_threshold, :]
-#     high_freq_part1 = freq_signal1[..., low_freq_threshold:, :]
-#     high_freq_part2 = freq_signal2[..., low_freq_threshold:, :]
-
-#     # 低频部分线性插值
-#     low_freq_interpolated = (1 - alpha) * low_freq_part1 + alpha * low_freq_part2
-
-#     # 高频部分球谐插值
-#     high_freq_interpolated = torch.zeros_like(high_freq_part1)
-#     for i in range(high_freq_part1.shape[-2]):  # 遍历频率分量
-#         high_freq_interpolated[..., i, :] = slerp(
-#             high_freq_part1[..., i, :], high_freq_part2[..., i, :], alpha
-#         )
-
-#     # 合并低频和高频部分
-#     freq_interpolated = torch.cat([low_freq_interpolated, high_freq_interpolated], dim=-2)
-
-#     # 进行傅里叶逆变换回到时域
-#     time_interpolated = torch.fft.ifft(freq_interpolated, dim=-2).real
-
-#     return time_interpolated
 
 
 #################################################################################
